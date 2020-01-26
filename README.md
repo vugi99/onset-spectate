@@ -9,5 +9,6 @@
 
 #### Informations
 * This script teleport your player under the map when you are spectating and will teleport you were you where before spectating
+* It won't work if the player is has a z location > ~26000
 
 
