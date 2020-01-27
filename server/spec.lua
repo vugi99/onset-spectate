@@ -24,53 +24,17 @@ function speclogic(cmdply,ply)
         CallRemoteEvent(cmdply,"SpecRemoteEvent",true,ply,x,y,z)
 end
 
-AddCommand("spectate",function(cmdply,name,name2,name3,name4,name5,name6,name7,name8,name9,name10,name11,name12,name13,name14,name15,name16)
+AddCommand("spectate",function(cmdply,name,...)
     if GetPlayerVehicle(cmdply) == 0 then
     if (name ~= nil and name ~= "" and name ~= " ") then
-    if name2 ~= nil then
-       name=name .. " " .. name2
-       if name3~=nil then
-        name=name .. " " .. name3
-        if name4~=nil then
-            name=name .. " " .. name4
-            if name5~=nil then
-                name=name .. " " .. name5
-                if name6~=nil then
-                    name=name .. " " .. name6
-                    if name7~=nil then
-                        name=name .. " " .. name7
-                        if name8~=nil then
-                            name=name .. " " .. name8
-                            if name9~=nil then
-                                name=name .. " " .. name9
-                                if name10~=nil then
-                                    name=name .. " " .. name10
-                                    if name11~=nil then
-                                        name=name .. " " .. name11
-                                        if name12~=nil then
-                                            name=name .. " " .. name12
-                                            if name13~=nil then
-                                                name=name .. " " .. name13
-                                                if name14~=nil then
-                                                    name=name .. " " .. name14
-                                                    if name15~=nil then
-                                                        name=name .. " " .. name15
-                                                        if name16~=nil then
-                                                            name=name .. " " .. name16 -- cool wave
-                                                           end
-                                                       end
-                                                   end
-                                               end
-                                           end
-                                       end
-                                   end
-                               end
-                           end
-                       end
-                   end
-               end
-           end
-       end
+    local first = name
+    local varargs = false
+        if #{...} ~= 0 then
+            varargs = true
+            name = table.concat({...}, " ")
+    end 
+    if varargs then
+       name = first .. " " .. name
     end
        
     local found = false
