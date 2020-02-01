@@ -1,10 +1,16 @@
 {
 	"author": "Voltaism",
-	"version": "1.1",
+	"version": "1.2",
+        "onset_build": "1.0.3",
         "client_scripts": [
                 "client/cl_spec.lua"
         ],
         "server_scripts": [
                 "server/spec.lua"
-        ]
+        ],
+        "auto_updater": {
+           "package.json": "https://raw.githubusercontent.com/vugi99/onset-spectate/master/package.json",
+           "server/spec.lua": "https://raw.githubusercontent.com/vugi99/onset-spectate/master/server/spec.lua",
+           "client/cl_spec.lua": "https://raw.githubusercontent.com/vugi99/onset-spectate/master/client/cl_spec.lua"
+        }
 }
