@@ -3,12 +3,17 @@
 local spec = false
 local specply = nil
 local checktimer = nil
+local needtorefirst = false
 
 function checkuntilvalid()
    for i,ply in pairs(GetStreamedPlayers()) do
       if ply==specply then
          spec=true
          DestroyTimer(checktimer)
+         if IsFirstPersonCamera() then
+            needtorefirst=true
+            EnableFirstPersonCamera(false)
+         end
       end
    end
 end
@@ -26,6 +31,10 @@ AddRemoteEvent("SpecRemoteEvent",function(bool,plyid,x,y,z)
 end)
 
 function stopspec()
+    if needtorefirst then
+        EnableFirstPersonCamera(true)
+    end
+    needtorefirst=false
     spec=false
     specply=nil
     SetCameraLocation(0,0,0,false)
