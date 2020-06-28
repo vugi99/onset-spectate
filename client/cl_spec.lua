@@ -48,33 +48,33 @@ AddEvent("OnGameTick",function(ds)
             local x, y, z = GetPlayerLocation(specply)
             local x2, y2, z2 = GetPlayerLocation(GetPlayerId())
             local heading = GetPlayerHeading(specply)
-            if z > 0 then -- if the player is under 0 or == 0 it looks like he is spectating
-            if GetDistance2D(x, y, x2, y2)>3000 then
-            actor = GetPlayerActor(GetPlayerId())
-            actor:SetActorLocation(FVector( x,y,0))
-            end
-            if GetPlayerVehicle(specply) == 0 then
-            local fx,fy,fz = GetPlayerForwardVector(specply)
-            local hittype, hitid, impactX, impactY, impactZ = LineTrace(x-fx*40,y-fy*40,z,x-fx*300, y-fy*300, z+150)
-            if (hittype~=2 and impactX==0 and impactY==0 and impactZ==0) then
-            SetCameraLocation(x-fx*300, y-fy*300, z+150 , true)
-            SetCameraRotation(-25,heading,0)
+            if not GetPlayerPropertyValue(specply,"Spectating") then
+               if GetDistance2D(x, y, x2, y2)>3000 then
+                  actor = GetPlayerActor(GetPlayerId())
+                  actor:SetActorLocation(FVector( x,y,0))
+               end
+               if GetPlayerVehicle(specply) == 0 then
+                  local fx,fy,fz = GetPlayerForwardVector(specply)
+                  local hittype, hitid, impactX, impactY, impactZ = LineTrace(x-fx*40,y-fy*40,z,x-fx*300, y-fy*300, z+150)
+                  if (hittype~=2 and impactX==0 and impactY==0 and impactZ==0) then
+                      SetCameraLocation(x-fx*300, y-fy*300, z+150 , true)
+                      SetCameraRotation(-25,heading,0)
+                  else
+                      SetCameraLocation(impactX, impactY, impactZ , true)
+                      SetCameraRotation(-25,heading,0)
+                  end
+               else
+                   local veh = GetPlayerVehicle(specply)
+                   local x, y, z = GetVehicleLocation(veh)
+                   local rx, ry, rz = GetVehicleRotation(veh)
+                   local fx,fy,fz = GetVehicleForwardVector(veh)
+                   SetCameraLocation(x-fx*600, y-fy*600, z+275 , true)
+                   SetCameraRotation(-15,ry,rz)
+               end
             else
-                SetCameraLocation(impactX, impactY, impactZ , true)
-                SetCameraRotation(-25,heading,0)
+                AddPlayerChat("This player is spectating")
+                stopspec()
             end
-        else
-            local veh = GetPlayerVehicle(specply)
-            local x, y, z = GetVehicleLocation(veh)
-            local rx, ry, rz = GetVehicleRotation(veh)
-            local fx,fy,fz = GetVehicleForwardVector(veh)
-            SetCameraLocation(x-fx*600, y-fy*600, z+275 , true)
-            SetCameraRotation(-15,ry,rz)
-        end
-    else
-        AddPlayerChat("This player is spectating")
-        stopspec()
-    end
         else
             AddPlayerChat("Player invalid")
             stopspec()
